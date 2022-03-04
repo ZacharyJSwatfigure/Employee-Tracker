@@ -80,6 +80,18 @@ function runEmployees() {
 
 // function viewAllDepartments()
 
+function viewAllDepartments() {
+    connection.query(
+        'SELECT * FROM Department', (err, res) => {
+            if (err) {
+                throw err;
+            }
+            console.table(res)
+            runEmployees();
+        }
+    )
+}
+
 // function viewAllRoles()
 
 // function viewAllEmployees()
