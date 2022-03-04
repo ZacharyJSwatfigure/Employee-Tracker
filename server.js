@@ -22,9 +22,9 @@ function runEmployees() {
                 'View all departments',
                 'View all roles',
                 'View all employees',
-                'Add department',
-                'Add roles',
-                'Add employees',
+                'create department',
+                'create roles',
+                'create employees',
                 'Update employee roles',
                 'Update employee manager',
                 'View employee by manager',
@@ -34,70 +34,70 @@ function runEmployees() {
         }).then(answer => {
 
             switch (answer.option) {
-                case "View all departments":
+                case "View all created departments":
                     viewAllDepartments();
                     break;
 
-                case "View all roles":
+                case "View all current roles":
                     viewAllRoles();
                     break;
 
-                case "View all employees":
+                case "View all current employees":
                     viewAllEmployees();
                     break;
 
-                case "Add department":
+                case "create department":
                     addDepartment();
                     break;
 
-                case "Add roles":
+                case "create roles":
                     addRoles();
                     break;
 
-                case "Add employees":
+                case "create employees":
                     addEmployee();
                     break;
 
-                case "Update employee roles":
+                case "Update employee's roles":
                     updateEmployeeRole();
                     break;
 
-                case "Update employee manager":
+                case "Update employee's manager":
                     updateManager()
                     break;
 
-                case "View employee by manager":
+                case "View employees by their manager":
                     viewEmployeeByManager()
                     break;
 
                 case "Exit":
                     connection.end();
-                    console.log('Have a good day');
+                    console.log('Bye bye!');
                     break;
             }
         })
 }
 
-function viewAllDepartments()
+// function viewAllDepartments()
 
-function viewAllRoles()
+// function viewAllRoles()
 
-function viewAllEmployees()
+// function viewAllEmployees()
 
-function addDepartment()
+// function addDepartment()
 
-function addRoles()
+// function addRoles()
 
-function selectRole()
+// function selectRole()
 
-function selectManager() 
+// function selectManager() 
 
-function addEmployee() 
+// function addEmployee() 
 
-function updateEmployeeRole()
+// function updateEmployeeRole()
 
-function updateManager()
+// function updateManager()
 
-function viewEmployeeByManager()
+// function viewEmployeeByManager()
 
 runEmployees();
