@@ -148,16 +148,272 @@ function addDepartment() {
 
 // function addRoles()
 
+function addRoles() {
+    connection.promise().query("SELECT * FROM Department")
+        .then((res) => {
+            return res[0].map(dept => {
+                return {
+                    name: dept.name,
+                    value: dept.id
+                }
+            })
+        })
+        .then((departments) => {
+
+            return inquirer.prompt([
+
+                {
+                    type: 'input',
+                    name: 'roles',
+                    message: 'Please add a role:'
+                },
+
+                {
+                    type: 'input',
+                    name: 'salary',
+                    message: 'Please enter a salary:'
+                },
+
+                {
+                    type: 'list',
+                    name: 'depts',
+                    choices: departments,
+                    message: 'Please select your department.'
+                }
+            ])
+        })
+
+        .then(answer => {
+            console.log(answer);
+            return connection.promise().query('INSERT INTO role SET ?', { title: answer.roles, salary: answer.salary, department_id: answer.depts });
+        })
+        .then(res => {
+            console.log('Added new role')
+            runEmployees();
+
+        })
+        .catch(err => {
+            throw err
+        });
+}
+
 // function selectRole()
+
+function selectRole() {
+    return connection.promise().query("SELECT * FROM role")
+        .then(res => {
+            return res[0].map(role => {
+                return {
+                    name: role.title,
+                    value: role.id
+                }
+            })
+        })
+}
 
 // function selectManager() 
 
+function selectManager() {
+    return connection.promise().query("SELECT * FROM employee ")
+        .then(res => {
+            return res[0].map(manager => {
+                return {
+                    name: `${manager.first_name} ${manager.last_name}`,
+                    value: manager.id,
+                }
+            })
+        })
+
+}
+
 // function addEmployee() 
+
+
+async function addEmployee() {
+
+    const managers = await selectManager();
+
+    inquirer.prompt([
+        {
+            name: "firstname",
+            type: "input",
+            message: "Enter their first name "
+        },
+        {
+            name: "lastname",
+            type: "input",
+            message: "Enter their last name "
+        },
+        {
+            name: "role",
+            type: "list",
+            message: "What is their role? ",
+            choices: await selectRole()
+        },
+        {
+            name: "manager",
+            type: "list",
+            message: "What's their managers name?",
+            choices: managers
+        }
+    ]).then(function (res) {
+        let roleId = res.role
+        let managerId = res.manager
+
+        console.log({managerId});
+        connection.query("INSERT INTO Employee SET ?",
+            {
+                first_name: res.firstname,
+                last_name: res.lastname,
+                manager_id: managerId,
+                role_id: roleId
+            }, function (err) {
+                if (err) throw err
+                console.table(res)
+                runEmployees();
+            })
+
+    })
+}
 
 // function updateEmployeeRole()
 
+function updateEmployeeRole() {
+    connection.promise().query('SELECT *  FROM employee')
+        .then((res) => {
+            return res[0].map(employee => {
+                return {
+                    name: employee.first_name,
+                    value: employee.id
+                }
+            })
+        })
+        .then(async (employeeList) => {
+            return inquirer.prompt([
+                {
+                    type: 'list',
+                    name: 'employeeListId',
+                    choices: employeeList,
+                    message: 'Please select the employee you want to update a role:.'
+                },
+                {
+                    type: 'list',
+                    name: 'roleId',
+                    choices: await selectRole(),
+                    message: 'Please select the role.'
+                }
+            ])
+        })
+        .then(answer => {
+            console.log(answer);
+            return connection.promise().query("UPDATE employee SET  role_id = ? WHERE id = ?",
+
+                    [
+                        answer.roleId,
+                        answer.employeeListId,
+                    ],
+            );
+        })
+        .then(res => {
+            // console.log(res);
+            console.log('Manager has been updated successfully')
+            runEmployees();
+        })
+
+        .catch(err => {
+            throw err
+        });
+
+}
+
 // function updateManager()
 
+function updateManager() {
+    connection.promise().query('SELECT *  FROM employee')
+        .then((res) => {
+            return res[0].map(employee => {
+                return {
+                    name: employee.first_name,
+                    value: employee.id
+                }
+            })
+        })
+        .then(async (employeeList) => {
+            return inquirer.prompt([
+                {
+                    type: 'list',
+                    name: 'employeeListId',
+                    choices: employeeList,
+                    message: 'Please select the employee you want to assign manager to:.'
+                },
+                {
+                    type: 'list',
+                    name: 'managerId',
+                    choices: await selectManager(),
+                    message: 'Please select the employee you want to make manager.'
+                }
+            ])
+        })
+        .then(answer => {
+            console.log(answer);
+            return connection.promise().query("UPDATE employee SET  manager_id = ? WHERE id = ?",
+
+                    [
+                        answer.managerId,
+                        answer.employeeListId,
+                    ],
+            );
+        })
+        .then(res => {
+            // console.log(res);
+            console.log('Manager has been updated successfully')
+            runEmployees();
+        })
+
+        .catch(err => {
+            throw err
+        });
+
+}
+
+
 // function viewEmployeeByManager()
+
+
+function viewEmployeeByManager() {
+    connection.promise().query('SELECT *  FROM employee')
+        .then((res) => {
+            return res[0].map(employee => {
+                return {
+                    name: employee.first_name,
+                    value: employee.id
+                }
+            })
+        })
+        .then(async (managerList) => {
+            return inquirer.prompt([
+                {
+                    type: 'list',
+                    name: 'managerId',
+                    choices: managerList,
+                    message: 'Please select a manager to find employees.'
+                }
+            ])
+        })
+        .then(answer => {
+            console.log(answer);
+            return connection.promise().query('SELECT * from Employee where manager_id=?',answer.managerId);
+
+        })
+        .then(res => {
+            console.table(res[0])
+            // console.log('Manager has been updated successfully')
+            runEmployees();
+        })
+
+        .catch(err => {
+            throw err
+        });
+}
 
 runEmployees();
