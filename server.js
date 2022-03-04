@@ -12,3 +12,24 @@ const connection = mysql.createConnection({
 
 connection.connect();
 
+function runEmployees()
+
+function viewAllDepartments()
+
+function viewAllRoles()
+
+function viewAllEmployees()
+
+function addDepartment()
+
+function addRoles()
+
+function selectRole()
+
+function selectManager() 
+
+function addEmployee() 
+
+function updateEmployeeRole()
+
+function updateManager()
