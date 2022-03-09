@@ -1,7 +1,5 @@
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
-const validator = require('validator');
-
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -9,9 +7,7 @@ const connection = mysql.createConnection({
     password: 'password',
     database: 'employees_db',
 });
-
 connection.connect();
-
 function runEmployees() {
     inquirer.prompt(
         {
@@ -22,64 +18,59 @@ function runEmployees() {
                 'View all departments',
                 'View all roles',
                 'View all employees',
-                'create department',
-                'create roles',
-                'create employees',
+                'Add department',
+                'Add roles',
+                'Add employees',
                 'Update employee roles',
                 'Update employee manager',
                 'View employee by manager',
                 'Exit'
             ]
-
         }).then(answer => {
-
             switch (answer.option) {
-                case "View all created departments":
+                case "View all departments":
                     viewAllDepartments();
                     break;
 
-                case "View all current roles":
+                case "View all roles":
                     viewAllRoles();
                     break;
 
-                case "View all current employees":
+                case "View all employees":
                     viewAllEmployees();
                     break;
 
-                case "create department":
+                case "Add department":
                     addDepartment();
                     break;
 
-                case "create roles":
+                case "Add roles":
                     addRoles();
                     break;
 
-                case "create employees":
+                case "Add employees":
                     addEmployee();
                     break;
 
-                case "Update employee's roles":
+                case "Update employee roles":
                     updateEmployeeRole();
                     break;
 
-                case "Update employee's manager":
+                case "Update employee manager":
                     updateManager()
                     break;
 
-                case "View employees by their manager":
+                case "View employee by manager":
                     viewEmployeeByManager()
                     break;
 
                 case "Exit":
                     connection.end();
-                    console.log('Bye bye!');
+                    console.log('Have a good day');
                     break;
             }
         })
 }
-
-// function viewAllDepartments()
-
 function viewAllDepartments() {
     connection.query(
         'SELECT * FROM Department', (err, res) => {
@@ -91,9 +82,6 @@ function viewAllDepartments() {
         }
     )
 }
-
-// function viewAllRoles()
-
 function viewAllRoles() {
     connection.query(
         'select ro.title as Role_title, ro.salary as Salary , dept.name as DepartmentName from Role ro left join department as dept on dept.id = ro.department_id', (err, res) => {
@@ -105,10 +93,6 @@ function viewAllRoles() {
         }
     )
 }
-
-// function viewAllEmployees()
-
-
 function viewAllEmployees() {
     const sql = 'Select emp.id as EmployeeID, concat(emp.first_name,"  ",emp.last_name ) as EmployeeName , ro.title as Job_tittle, ro.salary as Salary,dept.name as Department_Name,concat(emp2.first_name,"  ",emp2.last_name) as ManagerName from employees_db.employee as emp left join employees_db.employee as emp2 on emp2.id=emp.manager_id left join employees_db.Role as ro on emp.role_id=ro.id left join employees_db.department as dept on dept.id = ro.department_id';
     connection.query(
@@ -120,13 +104,8 @@ function viewAllEmployees() {
             console.table(res)
             runEmployees();
         }
-
     )
 }
-
-
-// function addDepartment()
-
 function addDepartment() {
     inquirer.prompt([
 
@@ -135,7 +114,6 @@ function addDepartment() {
             name: 'department',
             message: 'Please add a department name:'
         }
-
     ]).then(answer => {
         console.log(answer);
         connection.query('INSERT INTO department SET?', { name: answer.department }, (err, res) => {
@@ -145,9 +123,6 @@ function addDepartment() {
         });
     });
 }
-
-// function addRoles()
-
 function addRoles() {
     connection.promise().query("SELECT * FROM Department")
         .then((res) => {
@@ -161,7 +136,6 @@ function addRoles() {
         .then((departments) => {
 
             return inquirer.prompt([
-
                 {
                     type: 'input',
                     name: 'roles',
@@ -196,9 +170,6 @@ function addRoles() {
             throw err
         });
 }
-
-// function selectRole()
-
 function selectRole() {
     return connection.promise().query("SELECT * FROM role")
         .then(res => {
@@ -210,9 +181,6 @@ function selectRole() {
             })
         })
 }
-
-// function selectManager() 
-
 function selectManager() {
     return connection.promise().query("SELECT * FROM employee ")
         .then(res => {
@@ -225,9 +193,6 @@ function selectManager() {
         })
 
 }
-
-// function addEmployee() 
-
 
 async function addEmployee() {
 
@@ -253,13 +218,12 @@ async function addEmployee() {
         {
             name: "manager",
             type: "list",
-            message: "What's their managers name?",
+            message: "Whats their managers name?",
             choices: managers
         }
     ]).then(function (res) {
         let roleId = res.role
         let managerId = res.manager
-
         console.log({managerId});
         connection.query("INSERT INTO Employee SET ?",
             {
@@ -267,17 +231,14 @@ async function addEmployee() {
                 last_name: res.lastname,
                 manager_id: managerId,
                 role_id: roleId
+
             }, function (err) {
                 if (err) throw err
                 console.table(res)
                 runEmployees();
             })
-
     })
 }
-
-// function updateEmployeeRole()
-
 function updateEmployeeRole() {
     connection.promise().query('SELECT *  FROM employee')
         .then((res) => {
@@ -316,18 +277,14 @@ function updateEmployeeRole() {
         })
         .then(res => {
             // console.log(res);
-            console.log('Manager has been updated successfully')
+            console.log('Updated Manager Successfully')
             runEmployees();
         })
 
         .catch(err => {
             throw err
         });
-
 }
-
-// function updateManager()
-
 function updateManager() {
     connection.promise().query('SELECT *  FROM employee')
         .then((res) => {
@@ -365,8 +322,7 @@ function updateManager() {
             );
         })
         .then(res => {
-            // console.log(res);
-            console.log('Manager has been updated successfully')
+            console.log('Updated Manager Successfully')
             runEmployees();
         })
 
@@ -375,9 +331,6 @@ function updateManager() {
         });
 
 }
-
-
-// function viewEmployeeByManager()
 
 
 function viewEmployeeByManager() {
@@ -396,7 +349,7 @@ function viewEmployeeByManager() {
                     type: 'list',
                     name: 'managerId',
                     choices: managerList,
-                    message: 'Please select a manager to find employees.'
+                    message: 'Please select the manager you want to view employee by.'
                 }
             ])
         })
@@ -407,7 +360,6 @@ function viewEmployeeByManager() {
         })
         .then(res => {
             console.table(res[0])
-            // console.log('Manager has been updated successfully')
             runEmployees();
         })
 
@@ -415,5 +367,4 @@ function viewEmployeeByManager() {
             throw err
         });
 }
-
 runEmployees();
