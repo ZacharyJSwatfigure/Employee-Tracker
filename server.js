@@ -96,7 +96,7 @@ function viewAllRoles() {
 function viewAllEmployees() {
     const sql = 'Select emp.id as EmployeeID, concat(emp.first_name,"  ",emp.last_name ) as EmployeeName , ro.title as Job_tittle, ro.salary as Salary,dept.name as Department_Name,concat(emp2.first_name,"  ",emp2.last_name) as ManagerName from employees_db.employee as emp left join employees_db.employee as emp2 on emp2.id=emp.manager_id left join employees_db.Role as ro on emp.role_id=ro.id left join employees_db.department as dept on dept.id = ro.department_id';
     connection.query(
-        sql, 
+        sql,
         (err, res) => {
             if (err) {
                 throw err;
@@ -224,7 +224,7 @@ async function addEmployee() {
     ]).then(function (res) {
         let roleId = res.role
         let managerId = res.manager
-        console.log({managerId});
+        console.log({ managerId });
         connection.query("INSERT INTO Employee SET ?",
             {
                 first_name: res.firstname,
@@ -269,14 +269,13 @@ function updateEmployeeRole() {
             console.log(answer);
             return connection.promise().query("UPDATE employee SET  role_id = ? WHERE id = ?",
 
-                    [
-                        answer.roleId,
-                        answer.employeeListId,
-                    ],
+                [
+                    answer.roleId,
+                    answer.employeeListId,
+                ],
             );
         })
         .then(res => {
-            // console.log(res);
             console.log('Updated Manager Successfully')
             runEmployees();
         })
@@ -315,10 +314,10 @@ function updateManager() {
             console.log(answer);
             return connection.promise().query("UPDATE employee SET  manager_id = ? WHERE id = ?",
 
-                    [
-                        answer.managerId,
-                        answer.employeeListId,
-                    ],
+                [
+                    answer.managerId,
+                    answer.employeeListId,
+                ],
             );
         })
         .then(res => {
@@ -331,8 +330,6 @@ function updateManager() {
         });
 
 }
-
-
 function viewEmployeeByManager() {
     connection.promise().query('SELECT *  FROM employee')
         .then((res) => {
@@ -355,7 +352,7 @@ function viewEmployeeByManager() {
         })
         .then(answer => {
             console.log(answer);
-            return connection.promise().query('SELECT * from Employee where manager_id=?',answer.managerId);
+            return connection.promise().query('SELECT * from Employee where manager_id=?', answer.managerId);
 
         })
         .then(res => {
