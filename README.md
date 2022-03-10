@@ -2,6 +2,7 @@
   [![Mozilla license](https://img.shields.io/badge/license-Mozilla-blue.svg)](https://www.mozilla.org/en-US/MPL/2.0/)
   ## Table of Contents
   - [Description](#description)
+  - [DeployedIMGs](#DeployedIMGS)
   - [Installation](#installation)
   - [Usage](#usage)
   - [License](#license)
@@ -11,6 +12,14 @@
   ## Description
     This command line based application allows 
     users to keep track of their employees, their designated roles, Add managers, Employees under that manager, add departments, roles and salaries and receive a spreadhsheet response from the server displaying desired information.
+  <br />
+  ![Capture](./img/Capture.png)
+  <br />
+  ![Capture2](./img/Capture2.png)
+  <br />
+  ![Capture3](./img/Capture3.png)
+  <br/>
+
   ## Installation
   -->"npm i" into the terminal. <br/>
   -->Copy and paste contents of the Schema and seedMe into mysql workbench, and run the commands to populate the database.<br/>
@@ -20,7 +29,7 @@
     Click the license button at the top of this file to learn more.
   ## Questions
   Questions about this project? <br/>
-  GitHub: https://github.com/super duper <br/>
-  Email: undefined 
+  GitHub: https://github.com/ZacharyJSwatfigure <br/>
+  Email: zacharyswatfigure@gmail.com 
   ## Credits
   Zachary
