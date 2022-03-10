@@ -15,13 +15,7 @@
     roles, Add managers, Employees under that manager, 
     add departments, roles and salaries and receive a spreadhsheet 
     response from the server displaying desired information.
-  <br />
-  ![Capture](./img/Capture.png)
-  <br />
-  ![Capture2](./img/Capture2.png)
-  <br />
-  ![Capture3](./img/Capture3.png)
-  <br/>
+
 
   ## Installation
   -->"npm i" into the terminal. <br/>
