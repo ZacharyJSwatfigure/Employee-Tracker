@@ -13,7 +13,8 @@
     This command line based application allows 
     users to keep track of their employees, their designated 
     roles, Add managers, Employees under that manager, 
-    add departments, roles and salaries and receive a spreadhsheet response from the server displaying desired information.
+    add departments, roles and salaries and receive a spreadhsheet 
+    response from the server displaying desired information.
   <br />
   ![Capture](./img/Capture.png)
   <br />
