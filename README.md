@@ -2,7 +2,6 @@
   [![Mozilla license](https://img.shields.io/badge/license-Mozilla-blue.svg)](https://www.mozilla.org/en-US/MPL/2.0/)
   ## Table of Contents
   - [Description](#description)
-  - [DeployedIMGs](#DeployedIMGS)
   - [Installation](#installation)
   - [Usage](#usage)
   - [License](#license)
